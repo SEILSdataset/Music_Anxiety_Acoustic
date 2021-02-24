@@ -1,0 +1,106 @@
+---
+title: "Statistical Analysis"
+output: html_notebook
+---
+
+
+```{r load_data}
+# import packages
+library(haven)
+library(here)
+library(readr)
+library(car)
+library(lsr)
+library(psych)
+library(ggpubr)
+library(ggplot2)
+
+# define the path to the data
+my_path <- here::here()
+
+# import the data 
+
+All_Data <- read_delim("All.csv", "\t", escape_double = FALSE, 
+    trim_ws = TRUE)
+View(All_Data)
+```
+
+
+```{r new_col}
+All_Data$score.diff = All_Data$A_all.after - All_Data$A_all.before
+```
+
+
+```{r data_descriptive}
+describeBy(All_Data, All_Data$music)
+```
+
+
+```{r normality}
+
+## KOLMOGOROV-SMIRNOV
+# select DV
+x <- as.numeric(All_Data$score.diff)
+# Define N, mean, and sd to perform Kolmogorov-Smirnov
+N <- length(x)
+the_mean <- mean(x)
+the_sd <- sd(x)
+# compute the probability density for normal distribution 
+Y <- rnorm(N, the_mean, the_sd)
+# compute Kolmogorov-Smirnov
+KSResult <- ks.test(x, Y)
+print(KSResult)
+#KSResult$p.value
+
+## SHAPIRO-WILK
+ShapResult <- shapiro.test(x)
+print(ShapResult)
+#ShapResult$p.value
+```
+
+
+```{r homogeneity}
+# select DV and IV
+DV <- as.numeric(All_Data$score.diff)
+IV <- as.numeric(All_Data$music)
+
+# perform Levene's test
+levResult <- leveneTest(DV ~ as.factor(IV), data=All_Data)
+print(levResult)
+levResult$`Pr(>F)`[1:1]
+```
+
+
+```{r ANOVA}
+# Run ANOVA
+ANOVA_model <- aov(as.numeric(DV) ~ as.factor(IV), data = All_Data)
+summary(ANOVA_model)
+etaSquared(ANOVA_model)
+
+# Run multiple comparisons
+#1=control, 2=DEB, 3=GRE, 4=PAC, 5=SCH
+TukeyHSD(ANOVA_model)
+```
+
+
+```{r cohens_d}
+#1=control, 2=DEB, 3=GRE, 4=PAC, 5=SCH
+# 1 vs 3
+Zstat<-qnorm(0.6015303/2)
+new_row <-abs(Zstat)/sqrt(20)
+print(new_row)
+# 1 vs 2
+Zstat<-qnorm(0.7989577/2)
+new_row <-abs(Zstat)/sqrt(20)
+print(new_row)
+# 1 vs 4
+Zstat<-qnorm(0.0139598/2)
+new_row <-abs(Zstat)/sqrt(20)
+print(new_row)
+# 1 vs 5
+Zstat<-qnorm(0.9915921/2)
+new_row <-abs(Zstat)/sqrt(20)
+print(new_row)
+```
+
+
