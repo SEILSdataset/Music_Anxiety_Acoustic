@@ -1,4 +1,4 @@
-# ISMIR2021_anxiety
+# Music_x_Anxiety
 
 This repository contains the perceptual data and acoustic features assessed in the submission to ISMIR2021 entitled "Investigating the psycho-acoustic musical properties that decrease anxiety".
 
