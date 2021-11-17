@@ -8,4 +8,4 @@ The folder User_Study contains the data collected from the peceptual test in (cs
 
 The audio files considered in this study are referred in the article (cf. ISMIR2021_anxiety.pdf). If you find the content of this repository useful, you might consider giving us a citation:
 
-E. Parada-Cabaleiro, A. Batliner, & M., Schedl (2021), An exploratory study on the acoustic musical properties to decrease self-perceived anxiety, in International Journal of Environmental Research and Public Health, to appear.
+E. Parada-Cabaleiro, A. Batliner, & M., Schedl (2021), An exploratory study on the acoustic musical properties to decrease self-perceived anxiety, in the International Journal of Environmental Research and Public Health, to appear.
