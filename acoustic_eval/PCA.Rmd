@@ -225,32 +225,32 @@ res.desc$Dim.2
 
 
 ```{r make_sub_sets}
-eduardo1 <- compare[, c("music", "ID", "music2", "F0final_sma", "pcm_fftMag_spectralFlux_sma", "pcm_fftMag_psySharpness_sma", "pcm_fftMag_spectralCentroid_sma", "pcm_fftMag_spectralHarmonicity_sma", "pcm_RMSenergy_sma", "pcm_fftMag_spectralRollOff75.0_sma")]
+emomusic1 <- compare[, c("music", "ID", "music2", "F0final_sma", "pcm_fftMag_spectralFlux_sma", "pcm_fftMag_psySharpness_sma", "pcm_fftMag_spectralCentroid_sma", "pcm_fftMag_spectralHarmonicity_sma", "pcm_RMSenergy_sma", "pcm_fftMag_spectralRollOff75.0_sma")]
 top_compare1 <- compare[, c("music", "ID", "music2", "audspecRasta_lengthL1norm_sma", "audSpec_Rfilt_sma[19]", "audSpec_Rfilt_sma[20]", "audSpec_Rfilt_sma[21]", "pcm_fftMag_spectralEntropy_sma", "audSpec_Rfilt_sma[24]", "audSpec_Rfilt_sma[22]", "audSpec_Rfilt_sma[23]", "audSpec_Rfilt_sma[25]", "audSpec_Rfilt_sma[18]", "pcm_fftMag_spectralRollOff90.0_sma", "pcm_zcr_sma", "audSpec_Rfilt_sma[17]", "pcm_fftMag_spectralCentroid_sma", "pcm_fftMag_spectralRollOff75.0_sma", "pcm_fftMag_psySharpness_sma", "audSpec_Rfilt_sma[16]", "mfcc_sma[2]", "F0final_sma", "pcm_fftMag_spectralRollOff25.0_sma", "pcm_fftMag_spectralRollOff50.0_sma")]
 top_egemaps1 <- egemaps[, c("music", "ID", "music2", "alphaRatio_sma3", "F3amplitudeLogRelF0_sma3nz", "F2amplitudeLogRelF0_sma3nz", "mfcc1_sma3", "logRelF0-H1-A3_sma3nz", "mfcc2_sma3", "hammarbergIndex_sma3", "Loudness_sma3", "spectralFlux_sma3", "HNRdBACF_sma3nz", "F1bandwidth_sma3nz")]
 
-# we make the union because all the feature in the subset contribute with a correlation higher than 0.5
-union1 <- compare[, c("music", "ID", "music2", "audspecRasta_lengthL1norm_sma", "audSpec_Rfilt_sma[19]", "audSpec_Rfilt_sma[20]", "audSpec_Rfilt_sma[21]", "pcm_fftMag_spectralEntropy_sma", "audSpec_Rfilt_sma[24]", "audSpec_Rfilt_sma[22]", "audSpec_Rfilt_sma[23]", "audSpec_Rfilt_sma[25]", "audSpec_Rfilt_sma[18]", "pcm_fftMag_spectralRollOff90.0_sma", "pcm_zcr_sma", "audSpec_Rfilt_sma[17]", "pcm_fftMag_spectralCentroid_sma", "pcm_fftMag_spectralRollOff75.0_sma", "pcm_fftMag_psySharpness_sma", "audSpec_Rfilt_sma[16]", "mfcc_sma[2]", "F0final_sma", "pcm_fftMag_spectralRollOff25.0_sma", "pcm_fftMag_spectralRollOff90.0_sma", "pcm_fftMag_spectralRollOff50.0_sma", "pcm_fftMag_spectralFlux_sma", "pcm_fftMag_spectralHarmonicity_sma", "pcm_RMSenergy_sma")]
+# we make the noanx because all the feature in the subset contribute with a correlation higher than 0.5
+noanx1 <- compare[, c("music", "ID", "music2", "audspecRasta_lengthL1norm_sma", "audSpec_Rfilt_sma[19]", "audSpec_Rfilt_sma[20]", "audSpec_Rfilt_sma[21]", "pcm_fftMag_spectralEntropy_sma", "audSpec_Rfilt_sma[24]", "audSpec_Rfilt_sma[22]", "audSpec_Rfilt_sma[23]", "audSpec_Rfilt_sma[25]", "audSpec_Rfilt_sma[18]", "pcm_fftMag_spectralRollOff90.0_sma", "pcm_zcr_sma", "audSpec_Rfilt_sma[17]", "pcm_fftMag_spectralCentroid_sma", "pcm_fftMag_spectralRollOff75.0_sma", "pcm_fftMag_psySharpness_sma", "audSpec_Rfilt_sma[16]", "mfcc_sma[2]", "F0final_sma", "pcm_fftMag_spectralRollOff25.0_sma", "pcm_fftMag_spectralRollOff90.0_sma", "pcm_fftMag_spectralRollOff50.0_sma", "pcm_fftMag_spectralFlux_sma", "pcm_fftMag_spectralHarmonicity_sma", "pcm_RMSenergy_sma")]
 subtract1 <- compare[, c("music", "ID", "music2", "F0final_sma", "pcm_fftMag_psySharpness_sma", "pcm_fftMag_spectralCentroid_sma")]
 ```
 
 
-```{r remove_outliers_multicolinearity_eduardo}
-without_outliers <- eduardo1 %>% group_by(music2) %>% mahalanobis_distance() %>% filter(is.outlier == FALSE) %>% as.data.frame()
-eduardo <- eduardo1[which(eduardo1$ID %in% without_outliers$ID),]
-View(eduardo)
+```{r remove_outliers_multicolinearity_emomusic}
+without_outliers <- emomusic1 %>% group_by(music2) %>% mahalanobis_distance() %>% filter(is.outlier == FALSE) %>% as.data.frame()
+emomusic <- emomusic1[which(emomusic1$ID %in% without_outliers$ID),]
+View(emomusic)
 ```
 
 
-```{r PCA_eduardo_clean}
-df <- subset(eduardo, select = -c(music2, music, ID, music))
-eduardo.pca <- PCA(df, graph = FALSE)
-print(eduardo.pca)
+```{r PCA_emomusic_clean}
+df <- subset(emomusic, select = -c(music2, music, ID, music))
+emomusic.pca <- PCA(df, graph = FALSE)
+print(emomusic.pca)
 
-edu.plot <- fviz_pca_ind(eduardo.pca, pointsize = 2,
+edu.plot <- fviz_pca_ind(emomusic.pca, pointsize = 2,
 labelsize = 10, repel = TRUE, 
 geom.ind = "point", # show points only (nbut not "text")
-col.ind = eduardo$music2, # color by groups
+col.ind = emomusic$music2, # color by groups
 palette = c("#00AFBB", "#E7B800", "#FC4E07", "#868686FF"),
 addEllipses = TRUE, # Concentration ellipses
 legend.title = "Music", 
@@ -258,14 +258,14 @@ font.x = c(13,"plain","black"), font.y =  c(13,"plain","black"),
 title="Sub-set"
 )
 edu.plot
-pdf("eduardo.pdf")
+pdf("emomusic.pdf")
 print(edu.plot)
 dev.off()
 ```
 
 
-```{r contribution_eduardo}
-res.desc <- dimdesc(eduardo.pca, axes = c(1,2), proba = 0.05)
+```{r contribution_emomusic}
+res.desc <- dimdesc(emomusic.pca, axes = c(1,2), proba = 0.05)
 res.desc$Dim.2
 ```
 
@@ -348,144 +348,144 @@ new_comp <- compare_all[-1, ]
 new_egmp <- egemaps_all
 new_comp$ID <- 1:nrow(new_comp)
 new_egmp$ID <- 1:nrow(new_egmp)
-union1 <- merge(new_comp, new_egmp, sort=FALSE)
+noanx1 <- merge(new_comp, new_egmp, sort=FALSE)
 ```
 
 
 ```{r remove_outliers_all}
 "%ni%" <- Negate("%in%")
-A <- union1 %>% group_by(music) %>% identify_outliers(F0final_sma) %>% as.data.frame()
-B <- union1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralFlux_sma) %>% as.data.frame()
-C <- union1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_psySharpness_sma) %>% as.data.frame()
-D <- union1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralCentroid_sma) %>% as.data.frame()
-E <- union1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralHarmonicity_sma) %>% as.data.frame()
-G <- union1 %>% group_by(music) %>% identify_outliers(pcm_RMSenergy_sma) %>% as.data.frame()
-H <- union1 %>% group_by(music) %>% identify_outliers(pcm_zcr_sma) %>% as.data.frame()
-J <- union1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralRollOff90.0_sma) %>% as.data.frame()
-K <- union1 %>% group_by(music) %>% identify_outliers(audspecRasta_lengthL1norm_sma) %>% as.data.frame()
-L <- union1 %>% group_by(music) %>% identify_outliers(jitterLocal_sma) %>% as.data.frame()
-M <- union1 %>% group_by(music) %>% identify_outliers(jitterDDP_sma) %>% as.data.frame()
-N <- union1 %>% group_by(music) %>% identify_outliers(shimmerLocal_sma) %>% as.data.frame()
-O <- union1 %>% group_by(music) %>% identify_outliers(audspec_lengthL1norm_sma) %>% as.data.frame()
-P <- union1 %>% group_by(music) %>% identify_outliers(logHNR_sma) %>% as.data.frame()
-Q <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[0]`) %>% as.data.frame()
-Q0 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[1]`) %>% as.data.frame()
-Q24 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[2]`) %>% as.data.frame()
-Q23 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[3]`) %>% as.data.frame()
-Q22 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[4]`) %>% as.data.frame()
-Q21 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[5]`) %>% as.data.frame()
-Q20 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[6]`) %>% as.data.frame()
-Q19 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[7]`) %>% as.data.frame()
-Q18 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[8]`) %>% as.data.frame()
-Q17 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[9]`) %>% as.data.frame()
-Q16 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[10]`) %>% as.data.frame()
-Q15 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[11]`) %>% as.data.frame()
-Q14 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[12]`) %>% as.data.frame()
-Q13 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[13]`) %>% as.data.frame()
-Q12 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[14]`) %>% as.data.frame()
-Q11 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[15]`) %>% as.data.frame()
-Q10 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[16]`) %>% as.data.frame()
-Q9 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[17]`) %>% as.data.frame()
-Q8 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[18]`) %>% as.data.frame()
-Q7 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[19]`) %>% as.data.frame()
-Q6 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[20]`) %>% as.data.frame()
-Q5 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[21]`) %>% as.data.frame()
-Q4 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[22]`) %>% as.data.frame()
-Q3 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[23]`) %>% as.data.frame()
-Q2 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[24]`) %>% as.data.frame()
-Q1 <- union1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[25]`) %>% as.data.frame()
-R <- union1 %>% group_by(music) %>% identify_outliers(`pcm_fftMag_fband250-650_sma`) %>% as.data.frame()
-S <- union1 %>% group_by(music) %>% identify_outliers(`pcm_fftMag_fband1000-4000_sma`) %>% as.data.frame()
-TT <- union1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralRollOff25.0_sma) %>% as.data.frame()
-U <- union1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralRollOff50.0_sma) %>% as.data.frame()
-V <- union1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralRollOff75.0_sma) %>% as.data.frame()
-W <- union1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralEntropy_sma) %>% as.data.frame()
-X <- union1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralVariance_sma) %>% as.data.frame()
-Y <- union1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralSkewness_sma) %>% as.data.frame()
-Z <- union1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralKurtosis_sma) %>% as.data.frame()
-AA <- union1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralSlope_sma) %>% as.data.frame()
-BB <- union1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[1]`) %>% as.data.frame()
-BB2 <- union1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[2]`) %>% as.data.frame()
-BB3 <- union1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[3]`) %>% as.data.frame()
-BB4 <- union1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[4]`) %>% as.data.frame()
-BB5 <- union1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[5]`) %>% as.data.frame()
-BB6 <- union1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[6]`) %>% as.data.frame()
-BB7 <- union1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[7]`) %>% as.data.frame()
-BB8 <- union1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[8]`) %>% as.data.frame()
-BB9 <- union1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[9]`) %>% as.data.frame()
-BB10 <- union1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[10]`) %>% as.data.frame()
-BB11 <- union1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[11]`) %>% as.data.frame()
-BB12 <- union1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[12]`) %>% as.data.frame()
-BB13 <- union1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[13]`) %>% as.data.frame()
-BB1 <- union1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[14]`) %>% as.data.frame()
+A <- noanx1 %>% group_by(music) %>% identify_outliers(F0final_sma) %>% as.data.frame()
+B <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralFlux_sma) %>% as.data.frame()
+C <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_psySharpness_sma) %>% as.data.frame()
+D <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralCentroid_sma) %>% as.data.frame()
+E <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralHarmonicity_sma) %>% as.data.frame()
+G <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_RMSenergy_sma) %>% as.data.frame()
+H <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_zcr_sma) %>% as.data.frame()
+J <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralRollOff90.0_sma) %>% as.data.frame()
+K <- noanx1 %>% group_by(music) %>% identify_outliers(audspecRasta_lengthL1norm_sma) %>% as.data.frame()
+L <- noanx1 %>% group_by(music) %>% identify_outliers(jitterLocal_sma) %>% as.data.frame()
+M <- noanx1 %>% group_by(music) %>% identify_outliers(jitterDDP_sma) %>% as.data.frame()
+N <- noanx1 %>% group_by(music) %>% identify_outliers(shimmerLocal_sma) %>% as.data.frame()
+O <- noanx1 %>% group_by(music) %>% identify_outliers(audspec_lengthL1norm_sma) %>% as.data.frame()
+P <- noanx1 %>% group_by(music) %>% identify_outliers(logHNR_sma) %>% as.data.frame()
+Q <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[0]`) %>% as.data.frame()
+Q0 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[1]`) %>% as.data.frame()
+Q24 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[2]`) %>% as.data.frame()
+Q23 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[3]`) %>% as.data.frame()
+Q22 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[4]`) %>% as.data.frame()
+Q21 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[5]`) %>% as.data.frame()
+Q20 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[6]`) %>% as.data.frame()
+Q19 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[7]`) %>% as.data.frame()
+Q18 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[8]`) %>% as.data.frame()
+Q17 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[9]`) %>% as.data.frame()
+Q16 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[10]`) %>% as.data.frame()
+Q15 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[11]`) %>% as.data.frame()
+Q14 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[12]`) %>% as.data.frame()
+Q13 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[13]`) %>% as.data.frame()
+Q12 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[14]`) %>% as.data.frame()
+Q11 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[15]`) %>% as.data.frame()
+Q10 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[16]`) %>% as.data.frame()
+Q9 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[17]`) %>% as.data.frame()
+Q8 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[18]`) %>% as.data.frame()
+Q7 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[19]`) %>% as.data.frame()
+Q6 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[20]`) %>% as.data.frame()
+Q5 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[21]`) %>% as.data.frame()
+Q4 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[22]`) %>% as.data.frame()
+Q3 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[23]`) %>% as.data.frame()
+Q2 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[24]`) %>% as.data.frame()
+Q1 <- noanx1 %>% group_by(music) %>% identify_outliers(`audSpec_Rfilt_sma[25]`) %>% as.data.frame()
+R <- noanx1 %>% group_by(music) %>% identify_outliers(`pcm_fftMag_fband250-650_sma`) %>% as.data.frame()
+S <- noanx1 %>% group_by(music) %>% identify_outliers(`pcm_fftMag_fband1000-4000_sma`) %>% as.data.frame()
+TT <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralRollOff25.0_sma) %>% as.data.frame()
+U <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralRollOff50.0_sma) %>% as.data.frame()
+V <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralRollOff75.0_sma) %>% as.data.frame()
+W <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralEntropy_sma) %>% as.data.frame()
+X <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralVariance_sma) %>% as.data.frame()
+Y <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralSkewness_sma) %>% as.data.frame()
+Z <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralKurtosis_sma) %>% as.data.frame()
+AA <- noanx1 %>% group_by(music) %>% identify_outliers(pcm_fftMag_spectralSlope_sma) %>% as.data.frame()
+BB <- noanx1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[1]`) %>% as.data.frame()
+BB2 <- noanx1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[2]`) %>% as.data.frame()
+BB3 <- noanx1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[3]`) %>% as.data.frame()
+BB4 <- noanx1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[4]`) %>% as.data.frame()
+BB5 <- noanx1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[5]`) %>% as.data.frame()
+BB6 <- noanx1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[6]`) %>% as.data.frame()
+BB7 <- noanx1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[7]`) %>% as.data.frame()
+BB8 <- noanx1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[8]`) %>% as.data.frame()
+BB9 <- noanx1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[9]`) %>% as.data.frame()
+BB10 <- noanx1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[10]`) %>% as.data.frame()
+BB11 <- noanx1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[11]`) %>% as.data.frame()
+BB12 <- noanx1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[12]`) %>% as.data.frame()
+BB13 <- noanx1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[13]`) %>% as.data.frame()
+BB1 <- noanx1 %>% group_by(music) %>% identify_outliers(`mfcc_sma[14]`) %>% as.data.frame()
 
-A3 <- union1 %>% group_by(music) %>% identify_outliers(Loudness_sma3) %>% as.data.frame()
-B3 <- union1 %>% group_by(music) %>% identify_outliers(alphaRatio_sma3) %>% as.data.frame()
-C3 <- union1 %>% group_by(music) %>% identify_outliers(hammarbergIndex_sma3) %>% as.data.frame()
-D3 <- union1 %>% group_by(music) %>% identify_outliers(`slope500-1500_sma3`) %>% as.data.frame()
-E3 <- union1 %>% group_by(music) %>% identify_outliers(spectralFlux_sma3) %>% as.data.frame()
-G3 <- union1 %>% group_by(music) %>% identify_outliers(mfcc1_sma3) %>% as.data.frame()
-H3 <- union1 %>% group_by(music) %>% identify_outliers(`slope0-500_sma3`) %>% as.data.frame()
-J3 <- union1 %>% group_by(music) %>% identify_outliers(mfcc3_sma3) %>% as.data.frame()
-K3 <- union1 %>% group_by(music) %>% identify_outliers(mfcc4_sma3) %>% as.data.frame()
-L3 <- union1 %>% group_by(music) %>% identify_outliers(F0semitoneFrom27.5Hz_sma3nz) %>% as.data.frame()
-M3 <- union1 %>% group_by(music) %>% identify_outliers(mfcc2_sma3) %>% as.data.frame()
-N3 <- union1 %>% group_by(music) %>% identify_outliers(jitterLocal_sma3nz) %>% as.data.frame()
-O3 <- union1 %>% group_by(music) %>% identify_outliers(shimmerLocaldB_sma3nz) %>% as.data.frame()
-P3 <- union1 %>% group_by(music) %>% identify_outliers(HNRdBACF_sma3nz) %>% as.data.frame()
-Q3 <- union1 %>% group_by(music) %>% identify_outliers(`logRelF0-H1-H2_sma3nz`) %>% as.data.frame()
-R3 <- union1 %>% group_by(music) %>% identify_outliers(`logRelF0-H1-A3_sma3nz`) %>% as.data.frame()
-S3 <- union1 %>% group_by(music) %>% identify_outliers(F1frequency_sma3nz) %>% as.data.frame()
-TT3 <- union1 %>% group_by(music) %>% identify_outliers(F1bandwidth_sma3nz) %>% as.data.frame()
-U3 <- union1 %>% group_by(music) %>% identify_outliers(F1amplitudeLogRelF0_sma3nz) %>% as.data.frame()
-V3 <- union1 %>% group_by(music) %>% identify_outliers(F2frequency_sma3nz) %>% as.data.frame()
-W3 <- union1 %>% group_by(music) %>% identify_outliers(F2amplitudeLogRelF0_sma3nz) %>% as.data.frame()
-X3 <- union1 %>% group_by(music) %>% identify_outliers(F3frequency_sma3nz) %>% as.data.frame()
-Y3 <- union1 %>% group_by(music) %>% identify_outliers(F3amplitudeLogRelF0_sma3nz) %>% as.data.frame()
+A3 <- noanx1 %>% group_by(music) %>% identify_outliers(Loudness_sma3) %>% as.data.frame()
+B3 <- noanx1 %>% group_by(music) %>% identify_outliers(alphaRatio_sma3) %>% as.data.frame()
+C3 <- noanx1 %>% group_by(music) %>% identify_outliers(hammarbergIndex_sma3) %>% as.data.frame()
+D3 <- noanx1 %>% group_by(music) %>% identify_outliers(`slope500-1500_sma3`) %>% as.data.frame()
+E3 <- noanx1 %>% group_by(music) %>% identify_outliers(spectralFlux_sma3) %>% as.data.frame()
+G3 <- noanx1 %>% group_by(music) %>% identify_outliers(mfcc1_sma3) %>% as.data.frame()
+H3 <- noanx1 %>% group_by(music) %>% identify_outliers(`slope0-500_sma3`) %>% as.data.frame()
+J3 <- noanx1 %>% group_by(music) %>% identify_outliers(mfcc3_sma3) %>% as.data.frame()
+K3 <- noanx1 %>% group_by(music) %>% identify_outliers(mfcc4_sma3) %>% as.data.frame()
+L3 <- noanx1 %>% group_by(music) %>% identify_outliers(F0semitoneFrom27.5Hz_sma3nz) %>% as.data.frame()
+M3 <- noanx1 %>% group_by(music) %>% identify_outliers(mfcc2_sma3) %>% as.data.frame()
+N3 <- noanx1 %>% group_by(music) %>% identify_outliers(jitterLocal_sma3nz) %>% as.data.frame()
+O3 <- noanx1 %>% group_by(music) %>% identify_outliers(shimmerLocaldB_sma3nz) %>% as.data.frame()
+P3 <- noanx1 %>% group_by(music) %>% identify_outliers(HNRdBACF_sma3nz) %>% as.data.frame()
+Q3 <- noanx1 %>% group_by(music) %>% identify_outliers(`logRelF0-H1-H2_sma3nz`) %>% as.data.frame()
+R3 <- noanx1 %>% group_by(music) %>% identify_outliers(`logRelF0-H1-A3_sma3nz`) %>% as.data.frame()
+S3 <- noanx1 %>% group_by(music) %>% identify_outliers(F1frequency_sma3nz) %>% as.data.frame()
+TT3 <- noanx1 %>% group_by(music) %>% identify_outliers(F1bandwidth_sma3nz) %>% as.data.frame()
+U3 <- noanx1 %>% group_by(music) %>% identify_outliers(F1amplitudeLogRelF0_sma3nz) %>% as.data.frame()
+V3 <- noanx1 %>% group_by(music) %>% identify_outliers(F2frequency_sma3nz) %>% as.data.frame()
+W3 <- noanx1 %>% group_by(music) %>% identify_outliers(F2amplitudeLogRelF0_sma3nz) %>% as.data.frame()
+X3 <- noanx1 %>% group_by(music) %>% identify_outliers(F3frequency_sma3nz) %>% as.data.frame()
+Y3 <- noanx1 %>% group_by(music) %>% identify_outliers(F3amplitudeLogRelF0_sma3nz) %>% as.data.frame()
 
 outliers <- c(A$ID, B$ID, C$ID, D$ID, E$ID, G$ID, H$ID, J$ID, K$ID, L$ID, M$ID, N$ID, O$ID, P$ID, Q$ID, Q1$ID, Q0$ID, R$ID, S$ID, TT$ID, U$ID, V$ID, W$ID, X$ID, Y$ID, Z$ID, AA$ID, Q2$ID, Q3$ID, Q4$ID, Q5$ID, Q6$ID, Q7$ID, Q8$ID, Q9$ID, Q10$ID, Q11$ID, Q12$ID, Q13$ID, Q14$ID, Q15$ID, Q16$ID, Q17$ID, Q18$ID, Q19$ID, Q20$ID, Q21$ID, Q22$ID, Q23$ID, Q24$ID, BB$ID, BB2$ID, BB3$ID, BB4$ID, BB5$ID, BB6$ID, BB7$ID, BB8$ID, BB9$ID, BB10$ID, BB11$ID, BB12$ID, BB13$ID, BB1$ID, A3$ID, B3$ID, C3$ID, D3$ID, E3$ID, G3$ID, H3$ID, J3$ID, K3$ID, L3$ID, M3$ID, N3$ID, O3$ID, P3$ID, Q3$ID, R3$ID, S3$ID, TT3$ID, U3$ID, V3$ID, W3$ID, X3$ID, Y3$ID)
-union2 <- union1[which(union1$ID %ni% outliers),]
+noanx2 <- noanx1[which(noanx1$ID %ni% outliers),]
 ```
 
 
-```{r remove_outliers_multicolinearity_union}
-union3 <- union2[, c("music2", "ID", "music", "F0final_sma", "pcm_fftMag_spectralFlux_sma", "pcm_fftMag_psySharpness_sma", "pcm_fftMag_spectralCentroid_sma", "pcm_fftMag_spectralHarmonicity_sma", "pcm_RMSenergy_sma", "alphaRatio_sma3", "mfcc2_sma3", "hammarbergIndex_sma3", "Loudness_sma3", "pcm_fftMag_spectralRollOff75.0_sma")]
+```{r remove_outliers_multicolinearity_noanx}
+noanx3 <- noanx2[, c("music2", "ID", "music", "F0final_sma", "pcm_fftMag_spectralFlux_sma", "pcm_fftMag_psySharpness_sma", "pcm_fftMag_spectralCentroid_sma", "pcm_fftMag_spectralHarmonicity_sma", "pcm_RMSenergy_sma", "alphaRatio_sma3", "mfcc2_sma3", "hammarbergIndex_sma3", "Loudness_sma3", "pcm_fftMag_spectralRollOff75.0_sma")]
 
-without_outliers <- union3 %>% group_by(music2) %>% mahalanobis_distance() %>% filter(is.outlier == FALSE) %>% as.data.frame()
-union <- union3[which(union3$ID %in% without_outliers$ID),]
-View(union)
+without_outliers <- noanx3 %>% group_by(music2) %>% mahalanobis_distance() %>% filter(is.outlier == FALSE) %>% as.data.frame()
+noanx <- noanx3[which(noanx3$ID %in% without_outliers$ID),]
+View(noanx)
 ```
 
 
-```{r PCA_union}
-df <- subset(union, select = -c(music2, ID, music))
-union.pca <- PCA(df, graph = FALSE)
-print(union.pca)
+```{r PCA_noanx}
+df <- subset(noanx, select = -c(music2, ID, music))
+noanx.pca <- PCA(df, graph = FALSE)
+print(noanx.pca)
 
-union.plot <- fviz_pca_ind(union.pca, pointsize = 2,
+noanx.plot <- fviz_pca_ind(noanx.pca, pointsize = 2,
 labelsize = 10, repel = TRUE, 
 geom.ind = "point", # show points only (nbut not "text")
-col.ind = union$music2, # color by groups
+col.ind = noanx$music2, # color by groups
 palette = c("#00AFBB", "#E7B800", "#FC4E07", "#868686FF"),
 addEllipses = TRUE, # Concentration ellipses
 legend.title = "Music", 
 font.x = c(13,"plain","black"), font.y =  c(13,"plain","black"), 
 title="eSub-set"
 )
-union.plot
-pdf("union.pdf")
-print(union.plot)
+noanx.plot
+pdf("noanx.pdf")
+print(noanx.plot)
 dev.off()
 ```
 
 
-```{r descriptive_union}
-describeBy(union, union$music)
+```{r descriptive_noanx}
+describeBy(noanx, noanx$music)
 ```
 
 
-```{r contribution_union}
-res.desc <- dimdesc(union.pca, axes = c(1,2), proba = 0.05)
+```{r contribution_noanx}
+res.desc <- dimdesc(noanx.pca, axes = c(1,2), proba = 0.05)
 res.desc$Dim.1
 ```
 
@@ -495,121 +495,121 @@ res.desc$Dim.1
 ********************************************************************************************************************
 
 ```{r normality_shapiro_plot}
-#union %>% group_by(music) %>% shapiro_test(F0final_sma)
-#model <- lm(F0final_sma ~ music, data=union)
-#union %>% group_by(music) %>% shapiro_test(pcm_fftMag_spectralFlux_sma)
-#model <- lm(pcm_fftMag_spectralFlux_sma ~ music, data=union)
-union %>% group_by(music) %>% shapiro_test(pcm_fftMag_psySharpness_sma)
-model <- lm(pcm_fftMag_psySharpness_sma ~ music, data=union)
-#union %>% group_by(music) %>% shapiro_test(pcm_fftMag_spectralCentroid_sma)
-#model <- lm(pcm_fftMag_spectralCentroid_sma ~ music, data=union)
-#union %>% group_by(music) %>% shapiro_test(pcm_fftMag_spectralHarmonicity_sma)
-#model <- lm(pcm_fftMag_spectralHarmonicity_sma ~ music, data=union)
-#union %>% group_by(music) %>% shapiro_test(pcm_RMSenergy_sma)
-#model <- lm(pcm_RMSenergy_sma ~ music, data=union)
+#noanx %>% group_by(music) %>% shapiro_test(F0final_sma)
+#model <- lm(F0final_sma ~ music, data=noanx)
+#noanx %>% group_by(music) %>% shapiro_test(pcm_fftMag_spectralFlux_sma)
+#model <- lm(pcm_fftMag_spectralFlux_sma ~ music, data=noanx)
+noanx %>% group_by(music) %>% shapiro_test(pcm_fftMag_psySharpness_sma)
+model <- lm(pcm_fftMag_psySharpness_sma ~ music, data=noanx)
+#noanx %>% group_by(music) %>% shapiro_test(pcm_fftMag_spectralCentroid_sma)
+#model <- lm(pcm_fftMag_spectralCentroid_sma ~ music, data=noanx)
+#noanx %>% group_by(music) %>% shapiro_test(pcm_fftMag_spectralHarmonicity_sma)
+#model <- lm(pcm_fftMag_spectralHarmonicity_sma ~ music, data=noanx)
+#noanx %>% group_by(music) %>% shapiro_test(pcm_RMSenergy_sma)
+#model <- lm(pcm_RMSenergy_sma ~ music, data=noanx)
 ggqqplot(residuals(model))
 shapiro_test(residuals(model))
 ```
 
 
 ```{r homogeneity_plot}
-#model <- lm(F0final_sma ~ music, data=union)
-#union %>% levene_test(F0final_sma ~ music)
-#model <- lm(pcm_fftMag_spectralFlux_sma ~ music, data=union)
-#union %>% levene_test(pcm_fftMag_spectralFlux_sma ~ music)
-#model <- lm(pcm_fftMag_psySharpness_sma ~ music, data=union)
-#union %>% levene_test(pcm_fftMag_psySharpness_sma ~ music)
-#model <- lm(pcm_fftMag_spectralCentroid_sma ~ music, data=union)
-#union %>% levene_test(pcm_fftMag_spectralCentroid_sma ~ music)
-#model <- lm(pcm_fftMag_spectralHarmonicity_sma ~ music, data=union)
-#union %>% levene_test(pcm_fftMag_spectralHarmonicity_sma ~ music)
-model <- lm(pcm_RMSenergy_sma ~ music, data=union)
-union %>% levene_test(pcm_RMSenergy_sma ~ music)
+#model <- lm(F0final_sma ~ music, data=noanx)
+#noanx %>% levene_test(F0final_sma ~ music)
+#model <- lm(pcm_fftMag_spectralFlux_sma ~ music, data=noanx)
+#noanx %>% levene_test(pcm_fftMag_spectralFlux_sma ~ music)
+#model <- lm(pcm_fftMag_psySharpness_sma ~ music, data=noanx)
+#noanx %>% levene_test(pcm_fftMag_psySharpness_sma ~ music)
+#model <- lm(pcm_fftMag_spectralCentroid_sma ~ music, data=noanx)
+#noanx %>% levene_test(pcm_fftMag_spectralCentroid_sma ~ music)
+#model <- lm(pcm_fftMag_spectralHarmonicity_sma ~ music, data=noanx)
+#noanx %>% levene_test(pcm_fftMag_spectralHarmonicity_sma ~ music)
+model <- lm(pcm_RMSenergy_sma ~ music, data=noanx)
+noanx %>% levene_test(pcm_RMSenergy_sma ~ music)
 #plot(model, 1)
 ```
 
 
 ```{r welch_ANOVA}
-#DV <- union$F0final_sma
-#DV <- union$pcm_fftMag_spectralFlux_sma
-#DV <- union$pcm_fftMag_psySharpness_sma
-#DV <- union$pcm_fftMag_spectralCentroid_sma
-#DV <- union$pcm_fftMag_spectralHarmonicity_sma
-#DV <- union$pcm_RMSenergy_sma
-#DV <- union$pcm_fftMag_spectralRollOff75.0_sma
-#DV <- union$alphaRatio_sma3
-#DV <- union$mfcc2_sma3
-#DV <- union$hammarbergIndex_sma3
-DV <- union$Loudness_sma3
-res.aov <- union %>% welch_anova_test(DV ~ music)
+#DV <- noanx$F0final_sma
+#DV <- noanx$pcm_fftMag_spectralFlux_sma
+#DV <- noanx$pcm_fftMag_psySharpness_sma
+#DV <- noanx$pcm_fftMag_spectralCentroid_sma
+#DV <- noanx$pcm_fftMag_spectralHarmonicity_sma
+#DV <- noanx$pcm_RMSenergy_sma
+#DV <- noanx$pcm_fftMag_spectralRollOff75.0_sma
+#DV <- noanx$alphaRatio_sma3
+#DV <- noanx$mfcc2_sma3
+#DV <- noanx$hammarbergIndex_sma3
+DV <- noanx$Loudness_sma3
+res.aov <- noanx %>% welch_anova_test(DV ~ music)
 res.aov
 
-epsilonSquared(x = DV, g=union$music)
+epsilonSquared(x = DV, g=noanx$music)
 ```
 
 
 ```{r post-hoc_howell}
-pwc <- union %>% games_howell_test(F0final_sma ~ music, conf.level = 0.95)
-#pwc <- union %>% games_howell_test(pcm_fftMag_spectralFlux_sma ~ music, conf.level = 0.95)
-#pwc <- union %>% games_howell_test(pcm_fftMag_psySharpness_sma ~ music)
-#pwc <- union %>% games_howell_test(pcm_fftMag_spectralCentroid_sma ~ music)
-#pwc <- union %>% games_howell_test(pcm_fftMag_spectralHarmonicity_sma ~ music)
-#pwc <- union %>% games_howell_test(pcm_RMSenergy_sma ~ music)
-#pwc <- union %>% games_howell_test(pcm_fftMag_spectralRollOff75.0_sma ~ music)
-#pwc <- union %>% games_howell_test(mfcc2_sma3 ~ music)
-#pwc <- union %>% games_howell_test(hammarbergIndex_sma3 ~ music)
-#pwc <- union %>% games_howell_test(Loudness_sma3 ~ music)
-#pwc <- union %>% games_howell_test(alphaRatio_sma3 ~ music)
+pwc <- noanx %>% games_howell_test(F0final_sma ~ music, conf.level = 0.95)
+#pwc <- noanx %>% games_howell_test(pcm_fftMag_spectralFlux_sma ~ music, conf.level = 0.95)
+#pwc <- noanx %>% games_howell_test(pcm_fftMag_psySharpness_sma ~ music)
+#pwc <- noanx %>% games_howell_test(pcm_fftMag_spectralCentroid_sma ~ music)
+#pwc <- noanx %>% games_howell_test(pcm_fftMag_spectralHarmonicity_sma ~ music)
+#pwc <- noanx %>% games_howell_test(pcm_RMSenergy_sma ~ music)
+#pwc <- noanx %>% games_howell_test(pcm_fftMag_spectralRollOff75.0_sma ~ music)
+#pwc <- noanx %>% games_howell_test(mfcc2_sma3 ~ music)
+#pwc <- noanx %>% games_howell_test(hammarbergIndex_sma3 ~ music)
+#pwc <- noanx %>% games_howell_test(Loudness_sma3 ~ music)
+#pwc <- noanx %>% games_howell_test(alphaRatio_sma3 ~ music)
 pwc
 ```
 
 
 ```{r effect_size_hedgG}
-#hedg_g(union, F0final_sma ~ music) #, ref_group="PAC")
-#hedg_g(union, pcm_fftMag_spectralFlux_sma ~ music, ref_group="PAC")
-#hedg_g(union, pcm_fftMag_psySharpness_sma ~ music, ref_group="PAC")
-#hedg_g(union, pcm_fftMag_spectralCentroid_sma ~ music, ref_group="PAC")
-#hedg_g(union, pcm_fftMag_spectralHarmonicity_sma ~ music, ref_group="PAC")
-#hedg_g(union, pcm_RMSenergy_sma ~ music, ref_group="PAC")
-#hedg_g(union, pcm_fftMag_spectralRollOff75.0_sma ~ music, ref_group="PAC")
-#hedg_g(union, alphaRatio_sma3 ~ music, ref_group="PAC")
-#hedg_g(union, mfcc2_sma3 ~ music, ref_group="PAC")
-#hedg_g(union, hammarbergIndex_sma3 ~ music, ref_group="PAC")
-hedg_g(union, Loudness_sma3 ~ music, ref_group="PAC")
+#hedg_g(noanx, F0final_sma ~ music) #, ref_group="PAC")
+#hedg_g(noanx, pcm_fftMag_spectralFlux_sma ~ music, ref_group="PAC")
+#hedg_g(noanx, pcm_fftMag_psySharpness_sma ~ music, ref_group="PAC")
+#hedg_g(noanx, pcm_fftMag_spectralCentroid_sma ~ music, ref_group="PAC")
+#hedg_g(noanx, pcm_fftMag_spectralHarmonicity_sma ~ music, ref_group="PAC")
+#hedg_g(noanx, pcm_RMSenergy_sma ~ music, ref_group="PAC")
+#hedg_g(noanx, pcm_fftMag_spectralRollOff75.0_sma ~ music, ref_group="PAC")
+#hedg_g(noanx, alphaRatio_sma3 ~ music, ref_group="PAC")
+#hedg_g(noanx, mfcc2_sma3 ~ music, ref_group="PAC")
+#hedg_g(noanx, hammarbergIndex_sma3 ~ music, ref_group="PAC")
+hedg_g(noanx, Loudness_sma3 ~ music, ref_group="PAC")
 ```
 
 
 ```{r box_plot}
-energy.plot <- ggboxplot(union, x = "music2", y = "pcm_RMSenergy_sma", ylab="RMS.energy", xlab="Music", 
+energy.plot <- ggboxplot(noanx, x = "music2", y = "pcm_RMSenergy_sma", ylab="RMS.energy", xlab="Music", 
 font.x = c(30,"plain","black"), font.y =  c(30,"plain","black"), font.xtickslab=c(28,"plain","black"), font.ytickslab=c(28,"plain","black")) 
 pdf("energy.pdf")
 print(energy.plot)
 dev.off()
-sharpness.plot <- ggboxplot(union, x = "music2", y = "pcm_fftMag_psySharpness_sma", ylab="Sharpness", xlab="Music", 
+sharpness.plot <- ggboxplot(noanx, x = "music2", y = "pcm_fftMag_psySharpness_sma", ylab="Sharpness", xlab="Music", 
 font.x = c(30,"plain","black"), font.y =  c(30,"plain","black"), font.xtickslab=c(28,"plain","black"), font.ytickslab=c(28,"plain","black")) 
 pdf("sharpness.pdf")
 print(sharpness.plot)
 dev.off()
-harmonicity.plot <- ggboxplot(union, x = "music2", y = "pcm_fftMag_spectralHarmonicity_sma", ylab="Harmonicity", xlab="Music", 
+harmonicity.plot <- ggboxplot(noanx, x = "music2", y = "pcm_fftMag_spectralHarmonicity_sma", ylab="Harmonicity", xlab="Music", 
 font.x = c(30,"plain","black"), font.y =  c(30,"plain","black"), font.xtickslab=c(28,"plain","black"), font.ytickslab=c(28,"plain","black")) 
 pdf("harmonicity.pdf")
 print(harmonicity.plot)
 dev.off()
-F0.plot <- ggboxplot(union, x = "music2", y = "F0final_sma", ylab="F0", xlab="Music", 
+F0.plot <- ggboxplot(noanx, x = "music2", y = "F0final_sma", ylab="F0", xlab="Music", 
 font.x = c(30,"plain","black"), font.y =  c(30,"plain","black"), font.xtickslab=c(28,"plain","black"), font.ytickslab=c(28,"plain","black")) 
 pdf("F0.pdf")
 print(F0.plot)
 dev.off()
 
-#ggboxplot(union, x = "music", y = "pcm_fftMag_spectralCentroid_sma")
-#ggboxplot(union, x = "music", y = "pcm_fftMag_spectralRollOff75.0_sma")
-#ggboxplot(union, x = "music", y = "mfcc2_sma3")
+#ggboxplot(noanx, x = "music", y = "pcm_fftMag_spectralCentroid_sma")
+#ggboxplot(noanx, x = "music", y = "pcm_fftMag_spectralRollOff75.0_sma")
+#ggboxplot(noanx, x = "music", y = "mfcc2_sma3")
 
-#ggboxplot(union, x = "music2", y = "pcm_fftMag_spectralFlux_sma")
-#ggboxplot(union, x = "music", y = "hammarbergIndex_sma3")
-#ggboxplot(union, x = "music", y = "alphaRatio_sma3")
+#ggboxplot(noanx, x = "music2", y = "pcm_fftMag_spectralFlux_sma")
+#ggboxplot(noanx, x = "music", y = "hammarbergIndex_sma3")
+#ggboxplot(noanx, x = "music", y = "alphaRatio_sma3")
 
-#ggboxplot(union, x = "music2", y = "Loudness_sma3")
+#ggboxplot(noanx, x = "music2", y = "Loudness_sma3")
 ```
 
 
