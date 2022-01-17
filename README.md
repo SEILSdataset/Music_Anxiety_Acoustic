@@ -8,4 +8,4 @@ The folder User_Study contains the data collected from the peceptual test in (cs
 
 If you find the content of this repository useful, you might consider giving us a citation:
 
-E. Parada-Cabaleiro, A. Batliner, & M., Schedl (2022). An exploratory study on the acoustic musical properties to decrease self-perceived anxiety. International Journal of Environmental Research and Public Health, to appear.
+E. Parada-Cabaleiro, A. Batliner, & M., Schedl (2022). An exploratory study on the acoustic musical properties to decrease self-perceived anxiety. International Journal of Environmental Research and Public Health, 19(2), 994. https://doi.org/10.3390/ijerph19020994
